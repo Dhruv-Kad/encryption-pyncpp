@@ -1,6 +1,7 @@
 import codecs
 import os
 def encrypt(filename):
+
     tempout = open("tempout.txt", "w")
     with open(filename, "r") as filey:
         data = filey.read()
@@ -15,10 +16,8 @@ def encrypt(filename):
         mata = tempy.read()
         builder = ""
         for i in mata:
-            print(builder)
             if(i == "-"):
                 intr = int(builder)
-                print(chr(intr))
                 _ = f.write(chr(intr))
                 builder = ""
             else:
@@ -44,10 +43,8 @@ def decrypt(filename):
         mata = tempy.read()
         builder = ""
         for i in mata:
-            print(builder)
             if(i == "-"):
                 intr = int(builder)
-                print(chr(intr))
                 _ = f.write(chr(intr))
                 builder = ""
             else:
@@ -57,5 +54,5 @@ def decrypt(filename):
     f.close()
 
 if __name__ == "__main__":
-    decrypt("/home/dhruv/Projects/Python/simplepypass/passwords.txt")
+    decrypt("/home/dhruv/Projects/Python/simplepypass/blackout")
 
