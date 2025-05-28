@@ -40,6 +40,7 @@ def getnumfrompass():
         elif numper%9 == 0:
             numper = 9
         makestr += (numper)
+    print(makestr)
     return makestr
 
             
@@ -106,6 +107,7 @@ def asciimultidecrypt(filename : str):
 
 if __name__ == "__main__":
     instir = input("Enter password: ")
+    #instir = "Helloitsme"
     fname = input("Enter filename: ")
     readfile(fname)
     while True:
