@@ -30,7 +30,7 @@ def asciiswapencrypt(filename : str):
     f.close()
 
 def getnumfrompass():
-    teststr = "YesIdousevim"
+    teststr = instir
     makestr = 0 
     numper = 0
     for i in teststr:
@@ -105,6 +105,7 @@ def asciimultidecrypt(filename : str):
             print("Failed")
 
 if __name__ == "__main__":
+    instir = input("Enter password: ")
     fname = input("Enter filename: ")
     readfile(fname)
     while True:
