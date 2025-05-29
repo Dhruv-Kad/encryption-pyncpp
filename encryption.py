@@ -2,14 +2,14 @@ import random
 import time
 import os
 
-def asciiswapencrypt(filename : str):
+def ascii_swap_encrypt(filename : str, password : str):
 
     tempout = open("tempout.txt", "w")
     with open(filename, "r") as filey:
         data = filey.read()
         for i in data:
             holder = int((ord(i)))
-            holder += getnumfrompass() 
+            holder += getnumfrompass(password) 
             nicer = str(holder)
             _ = tempout.write(nicer + "-")
     tempout.close()
@@ -29,7 +29,7 @@ def asciiswapencrypt(filename : str):
     os.remove("tempout.txt")
     f.close()
 
-def getnumfrompass():
+def getnumfrompass(instir : str):
     teststr = instir
     makestr = 0 
     numper = 0
@@ -40,18 +40,17 @@ def getnumfrompass():
         elif numper%9 == 0:
             numper = 9
         makestr += (numper)
-    print(makestr)
     return makestr
 
             
 
-def asciiswapdecrypt(filename : str):
+def ascii_swap_decrypt(filename : str, password : str):
     tempout = open("tempout.txt", "w")
     with open(filename, "r") as filey:
         data = filey.read()
         for i in data:
             holder = int((ord(i)))
-            holder -= getnumfrompass() 
+            holder -= getnumfrompass(password) 
             nicer = str(holder)
             _ = tempout.write(nicer + "-")
     tempout.close()
@@ -71,16 +70,16 @@ def asciiswapdecrypt(filename : str):
     os.remove("tempout.txt")
     f.close()
 
-def readfile(filename : str):
+def printfile(filename : str):
     with open(filename, "r") as temfile:
         for i in temfile:
             print(i)
 
-def asciimultiencrypt(filename : str):
+def ascii_multi_encrypt(filename : str, password : str):
     times = random.randint(1,50)
     storetime = times
     while times > 0:
-        asciiswapencrypt(filename)
+        ascii_swap_encrypt(filename, password)
         times -= 1
     print(storetime)
 
@@ -94,37 +93,72 @@ def isitsolved(filename : str):
     return False
 
 
-def asciimultidecrypt(filename : str):
+def ascii_multi_decrypt(filename : str, password : str):
     cont = False
     while cont == False:
         try:
-            asciiswapdecrypt(filename)
+            ascii_swap_decrypt(filename, password)
             cont = isitsolved(filename)
-            readfile(filename)
+            printfile(filename)
             time.sleep(0.1)
         except:
             print("Failed")
 
+
+def vigenre_encrypt(filename : str, password : str):
+    strfromfile = ""
+    taken = 0
+    with open(filename, "r") as openfile:
+        for i in openfile:
+            strfromfile += i
+    passwordlen = len(password)
+    filelen = len(strfromfile)
+    holder = password
+    window = 0
+    # Normalized lenths
+    while passwordlen < filelen:
+        passwordlen += 1
+        if window >= len(password):
+            window = 0
+        holder += password[window]
+        window += 1
+    # Now move on to actually enrypting
+    builder = "" 
+    window = 0
+    for i in strfromfile:
+        taken = ord(i) + ord(holder[window])
+        window += 1
+        builder += chr(taken)
+
+    print(builder) 
+        
+
+
+
+
+
 if __name__ == "__main__":
-    instir = input("Enter password: ")
-    #instir = "Helloitsme"
+    newstr = input("Enter password: ")
     fname = input("Enter filename: ")
-    readfile(fname)
+    printfile(fname)
     while True:
-        print("1 to ascii encrypt, 2 to ascii decrypt, 3 to ascii multiencrypt, 4 to ascii multidecrypt")
+        print("1 to ascii encrypt, 2 to ascii decrypt, 3 to ascii multiencrypt, 4 to ascii multidecrypt, 5 to vigenre encrypt")
         choice = int(input("Enter choice: "))
         match choice:
             case 1:
-                asciiswapencrypt(fname)
+                ascii_swap_encrypt(fname, newstr)
             case 2:
-                asciiswapdecrypt(fname)
+                ascii_swap_decrypt(fname, newstr)
             case 3:
-                asciimultiencrypt(fname)
+                ascii_multi_encrypt(fname, newstr)
             case 4:
-                asciimultidecrypt(fname)
+                ascii_multi_decrypt(fname, newstr)
+            case 5:
+                vigenre_encrypt(fname, newstr)
+                
             case _:
                 print("Value out of bounds")
                 break
-        readfile(fname)
+        printfile(fname)
 
 
